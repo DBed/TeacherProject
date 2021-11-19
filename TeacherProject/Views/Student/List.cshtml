@@ -1,0 +1,14 @@
+﻿@model IEnumerable<TeacherProject.Models.Student>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>Full Student Roster</h2>
+<div class="page-content">
+    @foreach (var Student in Model)
+    {
+        <h3 class="item-head">@Student.StudentFName @Student.StudentLName </h3>
+        <p class="item-detail"><strong>Student ID:</strong> @Student.StudentId <br /> <strong>Student Number:</strong> @Student.StudentNum </p>
+    }
+</div>
+

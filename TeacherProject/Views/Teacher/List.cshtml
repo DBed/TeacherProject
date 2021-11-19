@@ -1,0 +1,18 @@
+﻿
+@model IEnumerable<TeacherProject.Models.Teacher>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>Teachers:</h2>
+<div class="page-content">
+    @foreach (var Teacher in Model)
+{
+    <h3 class="item-head"><strong>@Teacher.TeacherFName  @Teacher.TeacherLName</strong></h3>
+    <p class="item-detail"><strong>Teacher ID:</strong> @Teacher.TeacherId</p>
+}
+</div>
+
+<!--<a href= http://localhost:58774/Teacher/show/ + Teacher.TeacherId-->
+<!-- tried putting this in an anchor tag around the teacher name in the h3 to link to more info but it didn't go throug.  Would like to try again. '-->

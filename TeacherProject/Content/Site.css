@@ -1,0 +1,58 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/*Styling for the full lists from each view*/
+h2 {
+    background-color:navy;
+    max-width: 600px;
+    border-radius: 15px;
+    padding: 0.5em;
+    color: white;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.page-content {
+    border: 3px solid lightgrey;
+    padding: 1em;
+}
+
+.item-head {
+    font-weight: bold;
+    color: navy;
+}
+
+.item-detail {
+    background-color: #d3e0e8;
+}
+
+
+
+
+/*Styling for the show view pages*/
+.show-header {
+    color: #5c0c25;
+    background-color: white;
+    border: 4px solid #5c0c25;
+    border-radius: 0px;
+}
+
+.show-detail {
+    background-color: #cfabb6;
+    padding: 0.5em;
+}
