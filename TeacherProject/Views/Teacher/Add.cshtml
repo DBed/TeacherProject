@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+ }
+<script src="~/Scripts/teacher-form.js"></script>
+
+<h2>New Teacher</h2>
+<!--Form info is validated using /Scripts/teacher-form.js-->
+<form method="POST" action="/Teacher/Create" name="TeacherForm">
+    <!-- Input for teacher first name-->
+    <div>
+        <label for="">First Name:</label>
+        <input type="text" name="FirstName" id="FirstName" />
+    </div>
+    <!-- Input for teacher last name-->
+    <div>
+        <label for="">Last Name:</label>
+        <input type="text" name="LastName" id="LastName" />
+    </div>
+    <!-- Input for teacher employee number (max 999)-->
+    <div>
+        <label for="">Employee Number:</label>
+        <input type="number" max="999" name="EmployeeNumber" id="EmployeeNumber" />
+    </div>
+    <!-- Input for teacher hire date (date time format)-->
+    <div>
+        <label for="">Date Hired:</label>
+        <input type="date" name="HireDate" id="HireDate" />
+    </div>
+    <!-- Input for teacher salary, increments of 0.5-->
+    <div>
+        <label for="">Starting Salary:</label>
+        <input type="number" min="0.00" step="0.50" max="100.00" name="Salary" id="Salary" />
+    </div>
+    <input type="submit" value="Add Teacher" id="AddBtn"/>
+</form>
+

@@ -6,12 +6,20 @@
 }
 
 <h2>Teachers:</h2>
+<div>
+    <a href="/Teacher/Add">Add a new Teacher</a>
+</div>
+<form method="GET" action="/Teacher/List">
+    <label for="SearchKey">Search for a Teacher by last name:</label>
+    <input type="text" name="SearchKey" id="Searchkey" />
+    <input type="submit" value="Search"/>
+</form>
 <div class="page-content">
     @foreach (var Teacher in Model)
-{
-    <h3 class="item-head"><strong>@Teacher.TeacherFName  @Teacher.TeacherLName</strong></h3>
-    <p class="item-detail"><strong>Teacher ID:</strong> @Teacher.TeacherId</p>
-}
+    {
+        <h3 class="item-head"><a href="/Teacher/Show/@Teacher.TeacherId">@Teacher.TeacherFName  @Teacher.TeacherLName</a></h3>
+        <p class="item-detail"><strong>Teacher ID:</strong> @Teacher.TeacherId</p>
+    }
 </div>
 
 <!--<a href= http://localhost:58774/Teacher/show/ + Teacher.TeacherId-->

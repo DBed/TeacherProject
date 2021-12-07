@@ -30,5 +30,14 @@ namespace TeacherProject.Controllers
             SchoolClass SelectedSchoolClass = Controller.FindSchoolClass(id);
             return View(SelectedSchoolClass);
         }
+
+        //GET: SchoolClass/New
+        [HttpGet]
+        [Route("SchoolClass/New")]
+
+        public ActionResult New()
+        {
+            return View();
+        }
     }
 }

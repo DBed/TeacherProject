@@ -29,5 +29,13 @@ namespace TeacherProject.Controllers
             Student SelectedStudent = Controller.FindStudent(id);
             return View(SelectedStudent); 
         }
+
+        //GET: Student/New
+        [HttpGet]
+        [Route("Student/New")]
+        public ActionResult New()
+        {
+            return View();
+        }
     }
 }

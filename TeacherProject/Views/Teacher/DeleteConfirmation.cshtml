@@ -1,0 +1,12 @@
+﻿@model TeacherProject.Models.Teacher
+
+@{
+    ViewBag.Title = "DeleteConfirmation";
+}
+
+<a href="/Teacher/List">Return to teacher list.</a>
+<h2>Delete @Model.TeacherFName @Model.TeacherLName from the database?</h2>
+
+<form action="/Teacher/Delete/@Model.TeacherId" method="POST" name="TeacherDelete">
+    <input name="DeleteConfirmation" type="submit" value="Confirm Delete" />
+</form>

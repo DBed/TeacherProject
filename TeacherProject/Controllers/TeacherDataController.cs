@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using TeacherProject.Models;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
 
 
 namespace TeacherProject.Controllers
@@ -19,15 +20,22 @@ namespace TeacherProject.Controllers
         /// </summary>
         /// <returns>Full list of teacher elements in XML format</returns>
         [HttpGet]
-        public List<Teacher> ListTeachers()
+        [Route("api/TeacherData/ListTeachers/{SearchKey}")]
+        //Added search function during a puzzling period of C2 to get my brain working again
+        public List<Teacher> ListTeachers(string SearchKey=null) 
         {
+            //Debug.WriteLine("Attempting to search using " + SearchKey);
             //Create and open connection to School DB
             MySqlConnection Conn = School.AccessDatabase();
             Conn.Open();
 
             //Set up and define query for DB
             MySqlCommand cmd = Conn.CreateCommand();
-            cmd.CommandText = "Select * from Teachers";
+            string query = "Select * from Teachers where teacherlname like @key";
+
+            cmd.CommandText = query;
+            cmd.Parameters.AddWithValue("@key", "%" +SearchKey + "%");
+            cmd.Prepare();
 
             //Collect query result in a variable 
             MySqlDataReader ResultSet = cmd.ExecuteReader();
@@ -101,6 +109,59 @@ namespace TeacherProject.Controllers
             
             //return the selected teacher
             return SelectedTeacher;
+        }
+
+        /// <summary>
+        /// Adds a new Teacher to the database
+        /// </summary>
+        /// <param name="NewTeacher">Teacher Object</param>
+        public void AddTeacher(Teacher NewTeacher)
+        {
+            MySqlConnection Conn = School.AccessDatabase();
+
+            Conn.Open();
+
+            //SQL query to actually add info to the database in phpMyAdmin
+            string query = "insert into teachers (teacherfname, teacherlname, employeenumber, hiredate,  salary) values(@fname, @lname, @employeenumber, @hiredate, @salary) ";
+
+            MySqlCommand cmd = Conn.CreateCommand();
+            cmd.CommandText = query;
+
+            //match the SQL Query elements with elements from the form in /Teacher/Add
+            cmd.Parameters.AddWithValue("@fname", NewTeacher.TeacherFName);
+            cmd.Parameters.AddWithValue("@lname", NewTeacher.TeacherLName);
+            cmd.Parameters.AddWithValue("@employeenumber", "T" + NewTeacher.EmployeeNum.ToString()); //Adjusting Employee Number to the TXXX format on the database end
+            cmd.Parameters.AddWithValue("@hiredate", NewTeacher.HireDate);
+            cmd.Parameters.AddWithValue("@salary", NewTeacher.Salary);
+            
+            cmd.ExecuteNonQuery();
+            
+            Conn.Close();
+        }
+
+        /// <summary>
+        /// Deletes a teacher from the School DB using 
+        /// </summary>
+        /// <param name="id">TeacherId</param>
+        /// This method works on the pre-existing teachers in the database (Sorry, John Taram)
+        //I haven't been able to delete one of my created teachers using the method - created teachers have a blank poage when using the 'Show' View
+        public void DeleteTeacher(int id)
+        {
+            //Create and open connection to school DB
+            MySqlConnection Conn = School.AccessDatabase();
+            Conn.Open();
+            //Write a query to target all columns for the teacher with the current ID
+            string query = "delete from teachers where teacherid = @id";
+
+            //create command and apply the above query
+            MySqlCommand cmd = Conn.CreateCommand();
+            cmd.CommandText = query;
+            cmd.Parameters.AddWithValue("@id", id);
+
+            //run query in DB
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
         }
     }
 }
