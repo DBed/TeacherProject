@@ -81,7 +81,10 @@ namespace TeacherProject.Controllers
             MySqlCommand cmd = Conn.CreateCommand();
             //Trying to pull multiple "classes taught" from each teacher here but not sure what I'm missing. 
             //I was thinking of making a foreach loop inside the while loop to make a list of the classes, however I'm not sure how to do that exactly. 
-            cmd.CommandText = "Select * from Teachers INNER JOIN Classes on teachers.teacherid = classes.teacherid where teachers.teacherid=" + TeacherId;
+            string query = "Select * from Teachers LEFT JOIN Classes on teachers.teacherid = classes.teacherid where teachers.teacherid=@teacherid";
+
+            cmd.CommandText = query;
+            cmd.Parameters.AddWithValue("@teacherid", TeacherId);
 
             //Collect query result in a variable 
             MySqlDataReader ResultSet = cmd.ExecuteReader();
@@ -97,12 +100,14 @@ namespace TeacherProject.Controllers
                 string TeacherLName = ResultSet["teacherlname"].ToString();
                 string TaughtClassName = ResultSet["classname"].ToString();
                 string TaughtClassCode = ResultSet["classcode"].ToString();
+                decimal Salary = Convert.ToDecimal(ResultSet["salary"]);
 
                 SelectedTeacher.TeacherId = Id;
                 SelectedTeacher.TeacherFName = TeacherFName;
                 SelectedTeacher.TeacherLName = TeacherLName;
                 SelectedTeacher.TaughtClassCode = TaughtClassCode;
                 SelectedTeacher.TaughtClassName = TaughtClassName;
+                SelectedTeacher.Salary = Salary;
             }
             //close connection between DB and server
             Conn.Close();
@@ -137,6 +142,32 @@ namespace TeacherProject.Controllers
             cmd.ExecuteNonQuery();
             
             Conn.Close();
+        }
+
+        /// <summary>
+        /// Changes teacher info based on user input, references an Id
+        /// </summary>
+        /// <param name="SelectedTeacher"> Teacher info (first name, last name)</param>
+        
+        public void UpdateTeacher(Teacher SelectedTeacher)
+        {
+            MySqlConnection Conn = School.AccessDatabase();
+
+            Conn.Open();
+
+            string query = "update teachers set teacherfname=@fname, teacherlname=@lname, salary=@salary where teacherid=@id";
+
+            MySqlCommand cmd = Conn.CreateCommand();
+            cmd.CommandText = query;
+            cmd.Parameters.AddWithValue("@fname", SelectedTeacher.TeacherFName);
+            cmd.Parameters.AddWithValue("@lname", SelectedTeacher.TeacherLName);
+            cmd.Parameters.AddWithValue("@id", SelectedTeacher.TeacherId);
+            cmd.Parameters.AddWithValue("@salary", SelectedTeacher.Salary);
+
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
+
         }
 
         /// <summary>

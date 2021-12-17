@@ -6,8 +6,10 @@
 }
 
 <a href="/Teacher/List">Return to teacher list</a>
+<a href="/Teacher/Update/@Model.TeacherId">Update this teacher profile</a>
 <h2 class="show-header">@Model.TeacherFName  @Model.TeacherLName</h2>
 <p><strong>Teacher ID:</strong>  @Model.TeacherId</p>
+<p>Teacher Salary: $@Model.Salary</p>
 <!--<p class="show-detail">Instructor @Model.TeacherLName teaches @Model.TaughtClassName (@Model.TaughtClassCode)</p class="show-detail">-->
 <a style="color:#ff0000;" href="/Teacher/DeleteConfirmation/@Model.TeacherId">Delete Teacher</a>
-<!-- My new teachers don't show up when I use their ID in the SHOW url'-->
+<a href="/Teacher/Update/@Model.TeacherId">Update this Teacher Profile</a>

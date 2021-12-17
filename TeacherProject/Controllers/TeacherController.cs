@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using TeacherProject.Models;
 using System.Diagnostics;
 
+
 namespace TeacherProject.Controllers
 {
     public class TeacherController : Controller
@@ -23,7 +24,7 @@ namespace TeacherProject.Controllers
         }
 
         [HttpGet]
-        //Get: Student/Show/{id}
+        //Get: Teacher/Show/{id}
         //Creates an HTML page displaying the information for a single Teacher.
         [Route("Teacher/Show/{id}")]
         public ActionResult Show(int id)
@@ -32,6 +33,42 @@ namespace TeacherProject.Controllers
             Teacher SelectedTeachers = Controller.FindTeacher(id);
             return View(SelectedTeachers);
         }
+
+        //Generates an update page based on input ID
+        [HttpGet]
+        [Route("Teacher/Update/{id}")]
+        public ActionResult Update(int id)
+        {
+            TeacherDataController Controller = new TeacherDataController();
+            Teacher SelectedTeachers = Controller.FindTeacher(id);
+
+            return View(SelectedTeachers);
+        }
+
+        //adjust Teacher information with new data
+        [HttpPost]
+        [Route("Teacher/Update/{id}")]
+        public ActionResult Update(int id, string TeacherFName, String TeacherLName, decimal Salary) //Salary didn't play nice as a double for some reason so I changed it to decimal for simplicity
+        {
+            //Debug.WriteLine("Form Sent with Id of " + id);
+            //Debug.WriteLine("Form Sent with First name of " + TeacherFName);
+            //Debug.WriteLine("Form Sent with Last name of " + TeacherLName);
+
+            TeacherDataController Controller = new TeacherDataController();
+
+            Teacher SelectedTeacher = new Teacher();
+            SelectedTeacher.TeacherId = id;
+            SelectedTeacher.TeacherFName = TeacherFName;
+            SelectedTeacher.TeacherLName = TeacherLName;
+            SelectedTeacher.Salary = Salary;
+
+            Controller.UpdateTeacher(SelectedTeacher);
+
+            return RedirectToAction("Show/" + id);
+        }
+
+
+
 
         //GET: Teacher/Add
         [HttpGet]
@@ -44,7 +81,7 @@ namespace TeacherProject.Controllers
         //POST: Teacher/Create
         [HttpPost]
         [Route("Teacher/Create")]
-        public ActionResult Create(string FirstName, string LastName, int EmployeeNumber, DateTime HireDate, double Salary)
+        public ActionResult Create(string FirstName, string LastName, int EmployeeNumber, DateTime HireDate, decimal Salary)
         {
             //Posts message in Visual Studio console if the request goes through
             Debug.WriteLine("Attempt to create teacher with First Name: " + FirstName

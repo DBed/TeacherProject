@@ -15,6 +15,6 @@ namespace TeacherProject.Models
         public string TaughtClassName { get; set; }
         public int EmployeeNum { get; set; }
         public DateTime HireDate { get; set; }
-        public double Salary { get; set; }
+        public decimal Salary { get; set; } //had this as a double before, changing to a decimal seems to have alleviated a lot of issues pulling and converting data
     }
 }
